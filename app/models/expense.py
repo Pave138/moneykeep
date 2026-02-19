@@ -6,6 +6,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 from app.core.db import GeneralFieldBase
 
+MAX_LENGTH_DESCRIPTION = 500
+
 
 class Expense(GeneralFieldBase):
     __tablename__ = 'expense'
@@ -13,7 +15,7 @@ class Expense(GeneralFieldBase):
         Numeric(10, 2), nullable=False, comment='Сумма расхода'
     )
     description: Mapped[Optional[str]] = mapped_column(
-        String(500), comment='Описание расхода'
+        String(MAX_LENGTH_DESCRIPTION), comment='Описание расхода'
     )
     category_id: Mapped[int] = mapped_column(
         Integer, ForeignKey('expense_category.id'), comment='ID категории'

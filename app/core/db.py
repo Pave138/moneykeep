@@ -26,3 +26,6 @@ AsyncSessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 async def get_async_session():
     async with AsyncSessionLocal() as async_session:
         yield async_session
+
+
+SessionDep = Annotated[AsyncSession, Depends(get_async_session)]
