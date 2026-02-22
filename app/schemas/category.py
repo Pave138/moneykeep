@@ -2,10 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.category import (
-    MAX_LENGTH_NAME, MAX_LENGTH_COLOR, MAX_LENGTH_ICON)
+from app.models.category import MAX_LENGTH_NAME
 
-PATTERN_COLOR = '^#[0-9A-Fa-f]{6}$'
 CATEGORY_DESCRIPTIONS: dict[str, str] = {
     'Продукты и хозтовары': 'Ежедневные покупки продуктов и товаров для дома',
     'Здоровье и красота': 'Инвестиции в здоровье и внешний вид',
@@ -25,36 +23,27 @@ CATEGORY_DESCRIPTIONS: dict[str, str] = {
 }
 
 
-class ExpenseCategoryBase(BaseModel):
+class CategoryBase(BaseModel):
     """Базовая схема с общими полями"""
-    name: str = Field(
-        max_length=MAX_LENGTH_NAME, examples=list(CATEGORY_DESCRIPTIONS.keys())
-    )
+    name: str = Field(max_length=MAX_LENGTH_NAME)
     description: Optional[str] = Field(
         default=None, examples=list(CATEGORY_DESCRIPTIONS.values())
     )
-    color: Optional[str] = Field(
-        None, max_length=MAX_LENGTH_COLOR, pattern=PATTERN_COLOR
-    )
-    icon: Optional[str] = Field(None, max_length=MAX_LENGTH_ICON)
-
     model_config = ConfigDict(extra='forbid')
 
 
-class ExpenseCategoryCreate(ExpenseCategoryBase):
+class CategoryCreate(CategoryBase):
     pass
 
 
-class ExpenseCategoryUpdate(BaseModel):
+class CategoryUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=MAX_LENGTH_NAME)
     description: Optional[str] = None
-    color: Optional[str] = Field(None, pattern=PATTERN_COLOR)
-    icon: Optional[str] = Field(None, max_length=MAX_LENGTH_ICON)
 
     model_config = ConfigDict(extra='forbid')
 
 
-class ExpenseCategoryDB(ExpenseCategoryBase):
+class CategoryDB(CategoryBase):
     id: int
     name: str
 

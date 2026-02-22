@@ -3,36 +3,33 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.models.expense import MAX_LENGTH_DESCRIPTION
+from app.models.income import MAX_LENGTH_DESCRIPTION
+from app.schemas.expense import MIN_LENGTH_AMOUNT
 
-MIN_LENGTH_AMOUNT = 0
 
-
-class ExpenseBase(BaseModel):
-    amount: float = Field(gt=MIN_LENGTH_AMOUNT, description="Сумма расхода")
+class IncomeBase(BaseModel):
+    amount: float = Field(gt=MIN_LENGTH_AMOUNT, description='Сумма дохода')
     description: Optional[str] = Field(None, max_length=MAX_LENGTH_DESCRIPTION)
     category_id: int
     date: dt = Field(default_factory=dt.now)
-    is_paid: bool = True
 
     model_config = ConfigDict(extra='forbid')
 
 
-class ExpenseCreate(ExpenseBase):
+class IncomeCreate(IncomeBase):
     pass
 
 
-class ExpenseUpdate(BaseModel):
+class IncomeUpdate(BaseModel):
     amount: Optional[float] = Field(gt=MIN_LENGTH_AMOUNT)
     description: Optional[str] = Field(max_length=MAX_LENGTH_DESCRIPTION)
     category_id: Optional[int]
     date: Optional[dt]
-    is_paid: bool
 
     model_config = ConfigDict(extra='forbid')
 
 
-class ExpenseDB(ExpenseBase):
+class IncomeDB(IncomeBase):
     id: int
     created_at: dt
 

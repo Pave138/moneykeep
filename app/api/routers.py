@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 
-from app.api.endpoints import category_router, user_router, expense_router
+from app.api.endpoints import (
+    category_router, expense_router, income_router)
+from app.api.endpoints.user import users_router
 from app.core.user import auth_backend, fastapi_users
 from app.schemas.user import UserCreate, UserRead
 
@@ -18,7 +20,7 @@ main_router.include_router(
     tags=[AUTH_TAG]
 )
 main_router.include_router(
-    user_router,
+    users_router,
     prefix='/users',
     tags=['users']
 )
@@ -27,4 +29,7 @@ main_router.include_router(
 )
 main_router.include_router(
     expense_router, prefix='/expense', tags=['Расходы']
+)
+main_router.include_router(
+    income_router, prefix='/income', tags=['Доходы']
 )

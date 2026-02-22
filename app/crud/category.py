@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.base import CRUDBase
-from app.models import ExpenseCategory
+from app.models import ExpenseCategory, IncomeCategory
 
 
 class CRUDCategory(CRUDBase):
@@ -23,4 +23,5 @@ class CRUDCategory(CRUDBase):
         return db_category_id.scalars().first()
 
 
-category_crud = CRUDCategory(ExpenseCategory)
+expense_category_crud = CRUDCategory(ExpenseCategory)
+income_category_crud = CRUDCategory(IncomeCategory)

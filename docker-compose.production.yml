@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: moneykeep_backend
+    restart: always
+    env_file:
+      - ./backend/.env.production
+    expose:
+      - "8000"
+    networks:
+      - moneykeep_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: moneykeep_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - moneykeep_network
+
+networks:
+  moneykeep_network:
+    driver: bridge

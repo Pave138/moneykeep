@@ -1,3 +1,3 @@
 """Импорты класса Base и всех моделей для Alembic."""
 from app.core.db import Base  # noqa
-from app.models import ExpenseCategory, Expense, User  # noqa
+from app.models import ExpenseCategory, IncomeCategory, Expense, Income, User  # noqa

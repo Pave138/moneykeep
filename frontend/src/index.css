@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ===== LIGHT PRO ===== */
+    --background: 210 20% 98%;
+    --foreground: 222 20% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 20% 12%;
+    --primary: 212 90% 50%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 30% 96%;
+    --secondary-foreground: 222 20% 12%;
+    --muted: 210 30% 96%;
+    --muted-foreground: 215 15% 45%;
+    --accent: 210 30% 96%;
+    --accent-foreground: 222 20% 12%;
+    --destructive: 0 72% 52%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214 25% 90%;
+    --input: 214 25% 90%;
+    --ring: 212 90% 50%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    /* ===== DARK PRO (GitHub + Linear style) ===== */
+    --background: 222 28% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 24% 10%;
+    --card-foreground: 210 40% 98%;
+    --primary: 212 92% 65%;
+    --primary-foreground: 222 28% 7%;
+    --secondary: 222 20% 16%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 222 20% 16%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 222 20% 16%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 222 18% 20%;
+    --input: 222 18% 20%;
+    --ring: 212 92% 65%;
+  }
+
+  * {
+    @apply border-border;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    transition: background-color 0.3s ease, color 0.2s ease;
+  }
+}
+
+/* Плавные переходы для всех элементов */
+@layer components {
+  .transition-theme {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .card, button, input, select, textarea {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+}
