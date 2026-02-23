@@ -39,7 +39,6 @@ import {
 import { 
   Home,
   PieChart,
-  List,
   TrendingUp,
   TrendingDown,
   LogOut
@@ -306,96 +305,49 @@ export default function ExpensesPage() {
       <div className="fixed inset-0 bg-gradient-to-br from-primary/20 via-transparent to-indigo-500/20 blur-3xl pointer-events-none" />
       
       {/* HEADER */}
-      <header className="relative py-4 px-6 flex items-center justify-between border-b border-white/20 bg-white/60 dark:bg-white/5 backdrop-blur-xl">
-        {/* Logo */}
-        {/* Logo */}
-<Link to="/" className="group relative">
-  <div className="relative w-[48px] h-[48px]">
-
-    {/* Glow Layer 1 */}
-    <div className="
-      absolute -inset-1
-      bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600
-      rounded-full blur-lg
-      opacity-70
-      group-hover:opacity-100
-      animate-pulse
-    " />
-
-    {/* Glow Layer 2 */}
-    <div className="
-      absolute -inset-2
-      bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600
-      rounded-full blur-2xl
-      opacity-40
-      group-hover:opacity-70
-      transition
-    " />
-
-    {/* Logo Body */}
-    <div className="
-      relative
-      w-[48px] h-[48px]
-      rounded-full
-      bg-black/40 backdrop-blur-xl
-      border border-white/20
-      flex items-center justify-center
-      text-white font-bold text-xl
-      transition-all duration-300
-      group-hover:scale-105
-    ">
-      M
+      <header className="relative z-40 py-4 px-6 flex items-center justify-between">
+  {/* LOGO */}
+  <Link to="/" className="group relative">
+    <div className="relative w-[48px] h-[48px]">
+      <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-lg opacity-70 group-hover:opacity-100 animate-pulse" />
+      <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition" />
+      <div className="relative w-[48px] h-[48px] rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white font-bold text-xl transition-all duration-300 group-hover:scale-105">
+        M
+      </div>
     </div>
+  </Link>
 
+  {/* DESKTOP NAV */}
+  <nav className="hidden md:flex items-center gap-6">
+    <Link to="/expenses" className="flex items-center gap-1 text-primary font-medium">
+      <TrendingDown className="w-4 h-4" />
+      <span>Расходы</span>
+    </Link>
+
+    <Link to="/income" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+      <TrendingUp className="w-4 h-4" />
+      <span>Доходы</span>
+    </Link>
+
+    <Link to="/dashboard" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+      <PieChart className="w-4 h-4" />
+      <span>Статистика</span>
+    </Link>
+  </nav>
+
+  {/* RIGHT SIDE */}
+  <div className="flex items-center gap-3">
+    <GlowIconButton
+      variant="danger"
+      onClick={handleLogout}
+      title="Выйти"
+    >
+      <LogOut className="w-5 h-5" />
+    </GlowIconButton>
+
+    <ThemeToggle />
   </div>
-</Link>
-
-        {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6">
-          <Link 
-            to="/expenses" 
-            className="flex items-center gap-1 text-primary font-medium"
-          >
-            <TrendingDown className="w-4 h-4" />
-            <span>Расходы</span>
-          </Link>
-          <Link 
-            to="/income" 
-            className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
-          >
-            <TrendingUp className="w-4 h-4" />
-            <span>Доходы</span>
-          </Link>
-          <Link 
-            to="/dashboard" 
-            className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
-          >
-            <PieChart className="w-4 h-4" />
-            <span>Статистика</span>
-          </Link>
-        </nav>
-
-        {/* Right side - Logout and Theme Toggle */}
-        <div className="flex items-center gap-3">
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button variant="outline" size="icon" className="backdrop-blur">
-              <List className="w-4 h-4" />
-            </Button>
-          </div>
-
-          {/* Logout button */}
-          <GlowIconButton
-  variant="danger"
-  onClick={handleLogout}
-  title="Выйти"
->
-  <LogOut className="w-5 h-5" />
-</GlowIconButton>
-
-          <ThemeToggle />
-        </div>
-      </header>
+</header>
 
       {/* Mobile Navigation */}
       <div className="md:hidden relative px-6 py-2 flex gap-4 justify-center border-b border-white/20 bg-white/40 dark:bg-white/5 backdrop-blur-sm">
@@ -714,13 +666,6 @@ export default function ExpensesPage() {
           </SheetContent>
         </Sheet>
       </main>
-
-      {/* FOOTER - прижат к низу */}
-      <footer className="relative py-6 px-4 border-t border-white/20 bg-white/60 dark:bg-white/5 backdrop-blur-xl">
-        <div className="container mx-auto max-w-4xl text-center text-sm text-muted-foreground">
-          <p>MoneyKeep • Простой учет финансов</p>
-        </div>
-      </footer>
     </div>
   )
 }
