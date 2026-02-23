@@ -259,10 +259,10 @@ const [, setIncomes] = useState<Income[]>([])
 
         <div className="flex items-center gap-3">
           <div className="md:hidden">
-            <Button variant="outline" size="icon" className="backdrop-blur">
-              <List className="w-4 h-4" />
-            </Button>
-          </div>
+  <GlowIconButton title="Меню">
+    <List className="w-4 h-4" />
+  </GlowIconButton>
+</div>
 
           {/* ✅ КНОПКА КАТЕГОРИЙ ДЛЯ SUPERUSER */}
           {isSuperuser && (

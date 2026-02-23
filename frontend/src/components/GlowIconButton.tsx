@@ -5,6 +5,7 @@ interface Props {
   onClick?: () => void
   title?: string
   variant?: "default" | "danger"
+  type?: "button" | "submit" | "reset"
 }
 
 export default function GlowIconButton({
@@ -12,6 +13,7 @@ export default function GlowIconButton({
   onClick,
   title,
   variant = "default",
+  type = "button",
 }: Props) {
   const glow =
     variant === "danger"
@@ -19,14 +21,16 @@ export default function GlowIconButton({
       : "from-cyan-400 via-blue-500 to-indigo-600"
 
   return (
-    <div
+    <button
+      type={type}
       title={title}
       onClick={onClick}
-      className="relative group cursor-pointer select-none"
+      className="relative group cursor-pointer select-none focus:outline-none"
     >
       {/* Outer Glow */}
       <div
         className={`
+          pointer-events-none
           absolute -inset-1
           bg-gradient-to-r ${glow}
           rounded-full blur-lg
@@ -39,6 +43,7 @@ export default function GlowIconButton({
       {/* Soft Glow */}
       <div
         className={`
+          pointer-events-none
           absolute -inset-2
           bg-gradient-to-r ${glow}
           rounded-full blur-2xl
@@ -48,7 +53,7 @@ export default function GlowIconButton({
         `}
       />
 
-      {/* Button */}
+      {/* Button Body */}
       <div
         className="
           relative
@@ -65,6 +70,6 @@ export default function GlowIconButton({
       >
         {children}
       </div>
-    </div>
+    </button>
   )
 }
