@@ -1,32 +1,33 @@
-version: "3.9"
-
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: moneykeep_backend
+  db:
+    container_name: moneykeep-db
+    image: postgres:17-alpine
     restart: always
-    env_file:
-      - ./backend/.env.production
-    expose:
-      - "8000"
-    networks:
-      - moneykeep_network
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/pgsql/data
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: moneykeep_frontend
+  backend:
+    container_name: moneykeep-backend
+    image: pave138/moneykeep_backend
+    restart: always
+    depends_on:
+      - db
+    env_file: .env
+    volumes:
+      - media:/app/media
+
+  gateway:
+    container_name: moneykeep-proxy
+    image: pave138/moneykeep_proxy
     restart: always
     ports:
-      - "80:80"
+      - "8088:80"
+    volumes:
+      - media:/media
     depends_on:
       - backend
-    networks:
-      - moneykeep_network
 
-networks:
-  moneykeep_network:
-    driver: bridge
+volumes:
+  pg_data:
+  media:

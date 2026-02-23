@@ -1,3 +1,7 @@
+echo "Waiting for database..."
+
+sleep 10
+
 echo "Running migrations..."
 alembic upgrade head
 

@@ -2,6 +2,7 @@ services:
   db:
     container_name: moneykeep_db
     image: postgres:17-alpine
+    restart: always
     env_file:
       - .env
     volumes:
@@ -18,27 +19,16 @@ services:
     depends_on:
       - db
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: moneykeep_frontend
-    restart: always
-    depends_on:
-      - backend
-    volumes:
-      - static:/app/build
-
   gateway:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
     container_name: moneykeep_proxy
-    build: ./nginx
+    restart: always
     ports:
-      - "1111:80"
-    volumes:
-      - static:/moneykeep_static/
+      - "8088:80"
     depends_on:
       - backend
 
 volumes:
   pg_data:
-  static:

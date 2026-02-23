@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.post(
-    '/', response_model=ExpenseDB,
+    '', response_model=ExpenseDB,
     summary='Создает новый расход.',
     description='Создание нового расхода.',
     response_description='Созданный расход с присвоенным ID и другими полями'
@@ -25,7 +25,7 @@ async def create_expense(
 
 
 @router.get(
-    '/', response_model=list[ExpenseDB]
+    '', response_model=list[ExpenseDB]
 )
 async def get_expense_by_user(user: CurrentUserDep, session: SessionDep):
     expenses = await expense_crud.get_all_expense_by_user(user, session)

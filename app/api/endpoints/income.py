@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 @router.post(
-    '/', response_model=IncomeDB,
+    '', response_model=IncomeDB,
     summary='Создает новый доход.',
     description='Создание нового дохода.',
     response_description='Созданный доход с присвоенным ID и другими полями'
@@ -25,7 +25,7 @@ async def create_income(
 
 
 @router.get(
-    '/', response_model=list[IncomeDB]
+    '', response_model=list[IncomeDB]
 )
 async def get_income_by_user(user: CurrentUserDep, session: SessionDep):
     income = await income_crud.get_all_income_by_user(user, session)

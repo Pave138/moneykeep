@@ -10,7 +10,7 @@ export type Income = {
 
 /* GET */
 export const getIncome = async (): Promise<Income[]> => {
-  const res = await api.get("/api/income")
+  const res = await api.get("/income")
   return res.data
 }
 
@@ -20,7 +20,7 @@ export const createIncome = async (data: {
   description: string
   category_id: number
 }) => {
-  const res = await api.post("/api/income", data)
+  const res = await api.post("/income", data)
   return res.data
 }
 
@@ -33,12 +33,12 @@ export const updateIncome = async (
     category_id: number
   }>
 ) => {
-  const res = await api.patch(`/api/income/${id}`, data)
+  const res = await api.patch(`/income/${id}`, data)
   return res.data
 }
 
 /* DELETE */
 export const deleteIncome = async (id: number) => {
-  const res = await api.delete(`/api/income/${id}`)
+  const res = await api.delete(`/income/${id}`)
   return res.data
 }
