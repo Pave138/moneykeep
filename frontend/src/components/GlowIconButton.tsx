@@ -25,7 +25,7 @@ export default function GlowIconButton({
       type={type}
       title={title}
       onClick={onClick}
-      className="relative group cursor-pointer select-none focus:outline-none"
+      className="relative z-50 group cursor-pointer select-none focus:outline-none"
     >
       {/* Outer Glow */}
       <div

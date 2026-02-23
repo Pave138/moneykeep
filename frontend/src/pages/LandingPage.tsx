@@ -1,4 +1,5 @@
 import GlowIconButton from "@/components/GlowIconButton"
+import { AnimatePresence, motion } from "framer-motion"
 import { Link, useNavigate } from "react-router-dom"
 import {
   Card,
@@ -16,6 +17,7 @@ import {
   Tags, // ✅ ДОБАВИЛ
   LogIn,
   UserPlus, 
+  X
 } from "lucide-react"
 import ThemeToggle from "@/components/ThemeToggle"
 import { authStore } from "../store/auth"
@@ -39,6 +41,7 @@ interface Stats {
 }
 
 export default function LandingPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
 
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -218,89 +221,212 @@ const [, setIncomes] = useState<Income[]>([])
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-indigo-500/20 blur-3xl pointer-events-none" />
 
       {/* HEADER */}
-      <header className="relative py-4 px-6 flex items-center justify-between">
-        <Link to="/" className="group relative">
-          <div className="relative w-[48px] h-[48px]">
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-lg opacity-70 group-hover:opacity-100 animate-pulse" />
-            <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition" />
+      <header className="relative z-40 py-4 px-6 flex items-center justify-between">
+  {/* ===== MOBILE MENU ===== */}
+  <AnimatePresence>
+    {mobileMenuOpen && (
+      <>
+        {/* Backdrop */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          onClick={() => setMobileMenuOpen(false)}
+          className="md:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+        />
 
-            <div className="relative w-[48px] h-[48px] rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white font-bold text-xl transition-all duration-300 group-hover:scale-105">
-              M
-            </div>
-          </div>
-        </Link>
+        {/* Glass Menu */}
+        <motion.div
+          initial={{ opacity: 0, y: -24, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -24, scale: 0.96 }}
+          transition={{ duration: 0.28, ease: "easeOut" }}
+          className="md:hidden fixed inset-0 z-50 flex items-start justify-center pt-28 px-4"
+        >
+          <div className="w-full max-w-sm rounded-3xl bg-white/15 dark:bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_10px_40px_rgba(0,0,0,0.25)] p-8 space-y-6 text-center">
 
-        <nav className="hidden md:flex items-center gap-6">
-
-          {isAuthenticated ? (
-            <>
-              <Link to="/expenses" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
-                <TrendingDown className="w-4 h-4" />
-                <span>Расходы</span>
-              </Link>
-
-              <Link to="/income" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
-                <TrendingUp className="w-4 h-4" />
-                <span>Доходы</span>
-              </Link>
-
-              <Link to="/dashboard" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
-                <PieChart className="w-4 h-4" />
-                <span>Статистика</span>
-              </Link>
-            </>
-          ) : (
-            <span className="text-sm text-muted-foreground">
-              Войдите чтобы управлять финансами
-            </span>
-          )}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <div className="md:hidden">
-  <GlowIconButton title="Меню">
-    <List className="w-4 h-4" />
-  </GlowIconButton>
-</div>
-
-          {/* ✅ КНОПКА КАТЕГОРИЙ ДЛЯ SUPERUSER */}
-          {isSuperuser && (
-            <Link to="/admin/categories">
-  <GlowIconButton title="Категории">
-    <Tags className="w-5 h-5" />
-  </GlowIconButton>
-</Link>
-          )}
-
-          <div className="hidden md:flex items-center gap-2">
             {isAuthenticated ? (
-              <GlowIconButton
-  variant="danger"
-  onClick={handleLogout}
-  title="Выйти"
->
-  <LogOut className="w-5 h-5" />
-</GlowIconButton>
-) : (
               <>
-  <Link to="/login">
-    <GlowIconButton title="Войти">
-      <LogIn className="w-5 h-5" />
-    </GlowIconButton>
-  </Link>
+                <Link
+                  to="/expenses"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-lg font-medium text-muted-foreground hover:text-foreground transition"
+                >
+                  Расходы
+                </Link>
 
-  <Link to="/register">
-    <GlowIconButton title="Регистрация">
-      <UserPlus className="w-5 h-5" />
-    </GlowIconButton>
-  </Link>
-</>
+                <Link
+                  to="/income"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-lg font-medium text-muted-foreground hover:text-foreground transition"
+                >
+                  Доходы
+                </Link>
+
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-lg font-medium text-muted-foreground hover:text-foreground transition"
+                >
+                  Статистика
+                </Link>
+
+                {isSuperuser && (
+                  <Link
+                    to="/admin/categories"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-lg font-medium text-muted-foreground hover:text-foreground transition"
+                  >
+                    Категории
+                  </Link>
+                )}
+
+                <div className="pt-4 border-t border-white/20">
+                  <button
+                    onClick={() => {
+                      handleLogout()
+                      setMobileMenuOpen(false)
+                    }}
+                    className="w-full text-destructive font-medium"
+                  >
+                    Выйти
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-4">
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center py-2 rounded-xl bg-primary text-white font-medium"
+                >
+                  Войти
+                </Link>
+
+                <Link
+                  to="/register"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center py-2 rounded-xl border border-white/30 backdrop-blur hover:bg-white/10 transition"
+                >
+                  Регистрация
+                </Link>
+              </div>
             )}
           </div>
+        </motion.div>
+      </>
+    )}
+  </AnimatePresence>
 
-          <ThemeToggle />
-        </div>
-      </header>
+  {/* ===== LOGO ===== */}
+  <Link to="/" className="group relative">
+    <div className="relative w-[48px] h-[48px]">
+      <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-lg opacity-70 group-hover:opacity-100 animate-pulse" />
+      <div className="absolute -inset-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition" />
+
+      <div className="relative w-[48px] h-[48px] rounded-full bg-black/40 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white font-bold text-xl transition-all duration-300 group-hover:scale-105">
+        M
+      </div>
+    </div>
+  </Link>
+
+  {/* ===== DESKTOP NAV ===== */}
+  <nav className="hidden md:flex items-center gap-6">
+    {isAuthenticated ? (
+      <>
+        <Link to="/expenses" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <TrendingDown className="w-4 h-4" />
+          <span>Расходы</span>
+        </Link>
+
+        <Link to="/income" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <TrendingUp className="w-4 h-4" />
+          <span>Доходы</span>
+        </Link>
+
+        <Link to="/dashboard" className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+          <PieChart className="w-4 h-4" />
+          <span>Статистика</span>
+        </Link>
+      </>
+    ) : (
+      <span className="text-sm text-muted-foreground">
+        Войдите чтобы управлять финансами
+      </span>
+    )}
+  </nav>
+
+  {/* ===== RIGHT SIDE ===== */}
+  <div className="relative z-50 flex items-center gap-3">
+
+    {/* Mobile menu button */}
+    <div className="md:hidden">
+      <GlowIconButton
+        title="Меню"
+        onClick={() => setMobileMenuOpen(prev => !prev)}
+      >
+        <AnimatePresence mode="wait" initial={false}>
+          {mobileMenuOpen ? (
+            <motion.div
+              key="close"
+              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <X className="w-4 h-4" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="menu"
+              initial={{ rotate: 90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+            >
+              <List className="w-4 h-4" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </GlowIconButton>
+    </div>
+
+    {/* Superuser categories */}
+    {isSuperuser && (
+      <Link to="/admin/categories">
+        <GlowIconButton title="Категории">
+          <Tags className="w-5 h-5" />
+        </GlowIconButton>
+      </Link>
+    )}
+
+    {/* Desktop auth buttons */}
+    <div className="hidden md:flex items-center gap-2">
+      {isAuthenticated ? (
+        <GlowIconButton variant="danger" onClick={handleLogout} title="Выйти">
+          <LogOut className="w-5 h-5" />
+        </GlowIconButton>
+      ) : (
+        <>
+          <Link to="/login">
+            <GlowIconButton title="Войти">
+              <LogIn className="w-5 h-5" />
+            </GlowIconButton>
+          </Link>
+
+          <Link to="/register">
+            <GlowIconButton title="Регистрация">
+              <UserPlus className="w-5 h-5" />
+            </GlowIconButton>
+          </Link>
+        </>
+      )}
+    </div>
+
+    <ThemeToggle />
+  </div>
+</header>
 
       {/* ДАЛЬШЕ ВЕСЬ ТВОЙ КОД БЕЗ ИЗМЕНЕНИЙ */}
 
