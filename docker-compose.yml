@@ -1,6 +1,11 @@
-version: "3.9"
-
 services:
+  db:
+    container_name: moneykeep_db
+    image: postgres:17-alpine
+    env_file:
+      - .env
+    volumes:
+      - pg_data:/var/lib/pgsql/data
 
   backend:
     build:
@@ -10,10 +15,8 @@ services:
     restart: always
     env_file:
       - .env
-    ports:
-      - "3333:8000"
-    volumes:
-      - .:/app
+    depends_on:
+      - db
 
   frontend:
     build:
@@ -21,23 +24,21 @@ services:
       dockerfile: Dockerfile
     container_name: moneykeep_frontend
     restart: always
+    depends_on:
+      - backend
+    volumes:
+      - static:/app/build
+
+  gateway:
+    container_name: moneykeep_proxy
+    build: ./nginx
     ports:
-      - "80:80"
+      - "1111:80"
+    volumes:
+      - static:/moneykeep_static/
     depends_on:
       - backend
 
-  db:
-    image: postgres:16
-    container_name: moneykeep_db
-    restart: always
-    environment:
-      POSTGRES_USER: moneykeep
-      POSTGRES_PASSWORD: moneykeep
-      POSTGRES_DB: moneykeep
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
 volumes:
-  postgres_data:
+  pg_data:
+  static:

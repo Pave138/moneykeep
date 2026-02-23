@@ -10,7 +10,7 @@ export type Expense = {
 
 /* GET */
 export const getExpenses = async (): Promise<Expense[]> => {
-  const res = await api.get("/expense")
+  const res = await api.get("/api/expense")
   return res.data
 }
 
@@ -20,7 +20,7 @@ export const createExpense = async (data: {
   description: string
   category_id: number
 }) => {
-  const res = await api.post("/expense", data)
+  const res = await api.post("/api/expense", data)
   return res.data
 }
 
@@ -33,12 +33,12 @@ export const updateExpense = async (
     category_id: number
   }>
 ) => {
-  const res = await api.patch(`/expense/${id}`, data)
+  const res = await api.patch(`/api/expense/${id}`, data)
   return res.data
 }
 
 /* DELETE */
 export const deleteExpense = async (id: number) => {
-  const res = await api.delete(`/expense/${id}`)
+  const res = await api.delete(`/api/expense/${id}`)
   return res.data
 }

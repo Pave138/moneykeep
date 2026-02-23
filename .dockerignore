@@ -1,2 +1,6 @@
+venv
+env
+.git
+.env
 frontend
 fastapi.db

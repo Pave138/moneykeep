@@ -26,9 +26,6 @@ CATEGORY_DESCRIPTIONS: dict[str, str] = {
 class CategoryBase(BaseModel):
     """Базовая схема с общими полями"""
     name: str = Field(max_length=MAX_LENGTH_NAME)
-    description: Optional[str] = Field(
-        default=None, examples=list(CATEGORY_DESCRIPTIONS.values())
-    )
     model_config = ConfigDict(extra='forbid')
 
 
@@ -38,7 +35,6 @@ class CategoryCreate(CategoryBase):
 
 class CategoryUpdate(BaseModel):
     name: Optional[str] = Field(None, max_length=MAX_LENGTH_NAME)
-    description: Optional[str] = None
 
     model_config = ConfigDict(extra='forbid')
 
