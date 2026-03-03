@@ -63,6 +63,10 @@ export const router = createBrowserRouter([
     path: "/404",
     element: <NotFoundPage />,
   },
+  {
+    path: "/docs",
+    element: <Navigate to="/docs" replace />,
+  },
 
   {
     path: "*",
